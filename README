@@ -1,0 +1,92 @@
+Before You Begin
+
+	* You need to have created an RPX application. 
+	* You'll need a token_url to extract the token and pass it into the auth_info 
+	  call.
+
+Restrictions
+	
+	* Providing support Android 2.2 only
+
+Get the Library
+
+	Download from GitHub
+	
+Add the Library to Your Andoird Project
+	
+	1. Create new project.
+	2. Copy com.softfacade.jrauthenticate package to src folder.
+	3. Copy layout and drawable resources to your project.
+	4. Specify R.layout and R.id copied files in JRAuthenticate.java and
+	   JRWebViewActivity.java.
+	5. Specify your package name in AccountsAdapter for accessing image resources
+	
+	
+Using Janrain Authenticate
+
+	Sign in to RPX to get your 20-character Application ID from the Application
+	Info box.
+
+	To initialize an instance of the library, you can store the Application ID
+	as String and pass it to the constructor
+	JRAuthenticate(String appId, String tokenUrl, JRAuthenticateDelegate delegate)
+
+	Make sure that your delegate class implements the JRAuthenticateDelegate
+	protocol:
+
+	String appId = @"<your app id>";
+
+	...
+
+	JRAuthenticate jrAuth =  new JRAuthenticate(appId, tokenUrl, this);
+
+
+	In the section of code where you wish to launch the library's authentication
+	process, send the showJRAuthenticateDialog message from your JRAuthenticate
+	object:
+
+	jrAuth.showJRAuthenticateDialog(this, delegate, "Sign in with...");
+
+	After the user authenticates with the provider, the JRAuthenticate library
+	will post the jrAuthenticate(JRAuthenticate jrAuth, String didReceiveToken)
+	token message to your delegate, containing the
+	session token for the user.
+
+	If you provide the constructor with a token URL, the library
+	will post the jrAuthenticate(JRAuthenticate jrAuth, String didReceiveToken)
+	token message to your delegate and then continue 
+	to post the token to the token URL that was provided.
+
+	It is on your token URL that you should make the call to auth_info with your
+	Application Key. After the library receives a response from the token URL, it
+	will send the jrAuthenticateReachToken(JRAuthenticate jrAuth,
+	String didReachTokenURL, String withPayload)
+	message to your delegate with the contents of that response. It is your
+	application's responsibility to parse the response for the user's information.
+
+	We recommend that you make at least one token URL specific to your mobile
+	application, and have its response contain only the information your Android
+	application needs.
+
+	Unlike the RPX web-based widget, the library will not redirect the user to
+	the token URL. Instead, it will close the view controller containing the web
+	view, and perform the action of posting the token to the token URL headlessly.
+
+	If you did not instantiate the library with a token URL, the library will
+	remove its view controller at this point, and it is your responsibility to 
+	post the token to your token URL and process the response.
+
+	Optionally, you can call the message
+	makeCallToTokenUrl(String tokenURL, String token)
+	with any tokenURL and token.
+
+	Whether the library posts the token to the token URL or your application
+	does, your token URL should be making the call to auth_info with your
+	40-character Application Key. Your iPhone application should not contain 
+	the Application Key.
+
+	If there were any problems authenticating, or if the user canceled the
+	authentication, the jrAuthenticate(JRAuthenticate jrAuth, String callToTokenURL,
+	Error didFailWithError) or the 
+	jrAuthenticateDidNotCompleteAuthentication(JRAuthenticate jrAuth)
+	messages may be called instead of the didReceiveToken: message.
