@@ -1,0 +1,36 @@
+package com.softfacade.jrauthenticate;
+
+import org.apache.http.HttpRequest;
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+
+import android.os.Handler;
+
+public class JRConnectionManager {
+	
+	private static JRConnectionManager singleton;
+	
+	private HttpClient httpClient;
+	
+	protected JRConnectionManager() {
+		httpClient = new DefaultHttpClient();
+	}
+	
+	public static JRConnectionManager getInstance() {
+		if (singleton == null) {
+			singleton = new JRConnectionManager();
+		}
+		return singleton;
+	}
+	
+	public void createConnectionFromRequest(HttpRequest request, JRConnectionManagerDelegate delegate, String tag) {
+		(new AsynchronousSender(httpClient, request, new Handler(),
+				new CallbackWrapper(delegate), tag)).start();
+	}
+	
+	public HttpClient getClient() {
+		return httpClient;
+	}
+
+}

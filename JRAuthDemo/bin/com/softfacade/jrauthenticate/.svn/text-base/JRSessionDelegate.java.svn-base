@@ -1,0 +1,9 @@
+package com.softfacade.jrauthenticate;
+
+public interface JRSessionDelegate {
+	
+	
+	public void jrAuthenticationDidCancel();
+	public void jrAuthenticationDidCompleteWithToken(String tok, String prov);
+	public void jrAuthenticationDidFailWithError(Error err);
+}

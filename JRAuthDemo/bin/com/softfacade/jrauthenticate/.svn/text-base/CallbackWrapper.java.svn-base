@@ -1,0 +1,31 @@
+package com.softfacade.jrauthenticate;
+
+import org.apache.http.HttpRequest;
+import org.apache.http.client.HttpClient;
+
+
+public class CallbackWrapper implements Runnable {
+	
+	private JRConnectionManagerDelegate delegate;
+	private String payload;
+	private HttpRequest request;
+	private HttpClient client;
+	private String tag;
+	
+	public CallbackWrapper(JRConnectionManagerDelegate delegate) {
+		this.delegate = delegate;
+	}
+	
+	@Override
+	public void run() {
+		delegate.connectionDidFinishLoadingWithPayload(payload, request, client, tag);
+
+	}
+ 
+	public void setResponse(String payload, HttpRequest request, HttpClient client, String tag) {
+		this.payload = payload;
+		this.request = request;
+		this.client = client;
+		this.tag = tag;
+	}
+}
