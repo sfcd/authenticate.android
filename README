@@ -20,6 +20,9 @@ Add the Library to Your Andoird Project
 	4. Specify R.layout and R.id copied files in JRAuthenticate.java and
 	   JRWebViewActivity.java.
 	5. Specify your package name in AccountsAdapter for accessing image resources
+	6. Add JRWebViewAtivity to your AndroidManifest.xml
+	7. Add <uses-permission android:name="android.permission.INTERNET"/> to your
+	   AndroidManifest.xml
 	
 	
 Using Janrain Authenticate
