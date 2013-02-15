@@ -29,8 +29,8 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 File: JRWebViewActivity.java
-Author: Gleb Burov — gleb.burov@softfacade.com gleb.burov@gmail.com
-Company: Softfacade — hello@softfacade.com
+Author: Gleb Burov ï¿½ gleb.burov@softfacade.com gleb.burov@gmail.com
+Company: Softfacade ï¿½ hello@softfacade.com
 Date: Wednesday, November 24, 2010
 **********************************************************************************/
 
@@ -216,6 +216,10 @@ public class JRWebViewActivity extends Activity  {
 			super.onPageFinished(view, url);
 			int index = startURL.indexOf("start");
 			if (index != -1) {
+
+                if (startURL.indexOf("connect_start") > -1)
+                    index = startURL.indexOf("connect_start");
+
 				String finishURL = startURL.substring(0, index);
 				if (url.indexOf(finishURL) != -1) {
 					view.loadUrl("javascript:window.HTMLOUT.showHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
